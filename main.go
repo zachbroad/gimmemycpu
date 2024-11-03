@@ -17,8 +17,8 @@ import (
 
 import "fmt"
 
-const AccountSID = "redacted"
-const AuthToken = "redacted"
+const AccountSID = os.Getenv("TWILIO_ACCOUNT_SID")
+const AuthToken = os.Getenv("TWILIO_AUTH_TOKEN"
 const ProxyURL = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"
 
 var Proxies []string
@@ -119,7 +119,7 @@ func main() {
 	getProxies()
 
 	go func() {
-		for {
+		For {
 			time.Sleep(time.Minute * 120)
 			println("Refreshing proxies...")
 			getProxies()
