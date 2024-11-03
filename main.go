@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -99,7 +100,7 @@ var numChecks = 0
 func getProxies() {
 	fmt.Printf("Getting proxies from %s...\n", ProxyURL)
 	res, err := http.Get(ProxyURL)
-	if err != nil {
+	if err != nil 
 		log.Fatalln(err)
 	}
 
@@ -160,7 +161,6 @@ func checkLink(cpu LinkForCPU) bool {
 	}
 
 	req, _ := http.NewRequest("GET", cpu.url, nil)
-	//req.Header.Set("Host", u.Host)
 	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36")
 	req.Header.Set("Accept-Language", "en-US,en;q=0.9,la;q=0.8")
@@ -236,6 +236,13 @@ func inStockAlert(cpu LinkForCPU, url *url.URL) {
 }
 
 func sendText(msg string) {
+	fromNumber := os.Getenv("FROM_PHONE_NUMBER")
+	toNumber := os.Getenv("TO_PHONE_NUMBER")
+
+	if fromNumber == "" || toNumber == "" {
+		log.Fatal("FROM_PHONE_NUMBER and TO_PHONE_NUMBER environment variables must be set")
+	}
+
 	client := twilio.NewClient(
 		AccountSID,
 		AuthToken,
@@ -243,8 +250,8 @@ func sendText(msg string) {
 	)
 
 	client.Messages.SendMessage(
-		"15615108136",
-		"redacted",
+		fromNumber,
+		toNumber,
 		msg,
 		nil,
 	)
