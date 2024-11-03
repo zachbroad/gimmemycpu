@@ -18,7 +18,7 @@ import (
 import "fmt"
 
 const AccountSID = os.Getenv("TWILIO_ACCOUNT_SID")
-const AuthToken = os.Getenv("TWILIO_AUTH_TOKEN"
+const AuthToken = os.Getenv("TWILIO_AUTH_TOKEN")
 const ProxyURL = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"
 
 var Proxies []string
